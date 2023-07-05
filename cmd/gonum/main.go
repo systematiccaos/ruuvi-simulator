@@ -24,7 +24,8 @@ func main() {
 func run(w *app.Window) error {
 	var ops op.Ops
 	frame := 1.0
-	dp := pendulum.NewDoublePendulum(50, 50, 2, 2.5, 5, 7)
+	framerate := 60.0
+	dp := pendulum.NewDoublePendulum(50, 50, 2, 2.5, 5, 3)
 	dp2 := pendulum.NewDoublePendulum(80, 50, 2, 3.5, 5, 8)
 	for {
 		e := <-w.Events()
@@ -62,13 +63,13 @@ func run(w *app.Window) error {
 
 			e.Frame(cnv.Paint())
 			w.Invalidate()
-			dp.MoveObjects(1.0 / 60)
-			dp2.MoveObjects(1.0 / 60)
+			dp.MoveObjects(1.0 / framerate)
+			dp2.MoveObjects(1.0 / framerate)
 			// logrus.Printf("frametime: %d", frame/60)
 			dp.UpdatePos()
 			dp2.UpdatePos()
 			frame++
-			time.Sleep(time.Second / 60)
+			time.Sleep(time.Second / time.Duration(framerate))
 		}
 	}
 }

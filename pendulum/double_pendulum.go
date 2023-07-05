@@ -2,17 +2,19 @@ package pendulum
 
 import (
 	"math"
+	"math/rand"
 )
 
 type Pendulum struct {
-	Radius    float64
-	StringLen float64
-	Angle     float64
-	Start     Vector2
-	Position  Vector2
-	MoveBob   bool
-	Mass      float64
-	Velocity  float64
+	Radius     float64
+	StringLen  float64
+	Angle      float64
+	StartAngle float64
+	Start      Vector2
+	Position   Vector2
+	MoveBob    bool
+	Mass       float64
+	Velocity   float64
 }
 
 type DoublePendulum struct {
@@ -54,6 +56,18 @@ func (dp *DoublePendulum) UpdatePos() {
 
 	dp.P2.Position.X = dp.P2.Start.X + math.Sin(dp.P2.Angle)*dp.P2.StringLen
 	dp.P2.Position.Y = dp.P2.Start.Y + math.Cos(dp.P2.Angle)*dp.P2.StringLen
+	if math.IsNaN(dp.P1.Position.X) || math.IsNaN(dp.P1.Position.Y) {
+		dp.P1.Position = Vector2{X: 100.0, Y: dp.P1.Start.Y + 200.0}
+		dp.P1.Angle = rand.Float64() * dp.P1.StartAngle
+		dp.P1.Velocity = 0.1
+		dp.UpdatePos()
+	}
+	if math.IsNaN(dp.P2.Position.X) || math.IsNaN(dp.P2.Position.Y) {
+		dp.P2.Position = Vector2{X: 100.0, Y: dp.P2.Start.Y + 150.0}
+		dp.P2.Angle = rand.Float64() * dp.P2.StartAngle
+		dp.P2.Velocity = 0.1
+		dp.UpdatePos()
+	}
 }
 
 func NewDoublePendulum(startx1 float64, starty1 float64, angle1 float64, angle2 float64, strlen1 float64, strlen2 float64) DoublePendulum {
@@ -71,20 +85,22 @@ func NewDoublePendulum(startx1 float64, starty1 float64, angle1 float64, angle2 
 				X: startx1,
 				Y: starty1,
 			},
-			StringLen: strlen1,
-			Angle:     angle1 / math.Pi,
-			Velocity:  0.1,
-			Mass:      10.0,
+			StringLen:  strlen1,
+			Angle:      angle1 / math.Pi,
+			StartAngle: angle1 / math.Pi,
+			Velocity:   0.1,
+			Mass:       10.0,
 		},
 		P2: Pendulum{
 			Start: Vector2{
 				X: startx1,
 				Y: starty1,
 			},
-			StringLen: strlen2,
-			Angle:     angle2 / math.Pi,
-			Velocity:  0.1,
-			Mass:      10.0,
+			StringLen:  strlen2,
+			Angle:      angle2 / math.Pi,
+			StartAngle: angle2 / math.Pi,
+			Velocity:   0.1,
+			Mass:       10.0,
 		},
 	}
 	dp.P1.Position = Vector2{X: 100.0, Y: dp.P1.Start.Y + 200.0}
