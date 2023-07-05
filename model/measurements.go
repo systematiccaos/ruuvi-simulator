@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-type Measurement struct {
+type Measurement interface {
 }
 
 type AccelerationMeasurement struct {

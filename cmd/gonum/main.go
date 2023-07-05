@@ -35,12 +35,6 @@ func run(w *app.Window) error {
 			return e.Err
 		case system.FrameEvent:
 			gtx := layout.NewContext(&ops, e)
-
-			// p := plot.New()
-			// p.Title.Text = "Pendulum"
-			// p.X.Label.Text = "X"
-			// p.Y.Label.Text = "Y"
-
 			gc := giocanvas.Canvas{
 				Height:  1000.0,
 				Width:   1000.0,
@@ -48,25 +42,11 @@ func run(w *app.Window) error {
 			}
 			drawPendulum(dp, gc)
 			drawPendulum(dp2, gc)
-			// logrus.Printf("X: %f, Y: %f", dp.P1.Position.X, dp.P1.Position.Y)
-
-			// pts := plotter.XYs{
-			// 	{X: dp.P1.Position.X, Y: dp.P1.Position.Y},
-			// 	{X: dp.P2.Position.X, Y: dp.P2.Position.Y},
-			// }
-			// scatter, err := plotter.NewScatter(pts)
-			// if err != nil {
-			// 	logrus.Fatalln(err)
-			// }
-			// p.Add(scatter)
 			cnv := vggio.New(gtx, 20*vg.Centimeter, 20*vg.Centimeter, vggio.UseDPI(96))
-			// p.Draw(draw.New(cnv))
-
 			e.Frame(cnv.Paint())
 			w.Invalidate()
 			dp.MoveObjects(1.0 / framerate)
 			dp2.MoveObjects(1.0 / framerate)
-			// logrus.Printf("frametime: %d", frame/60)
 			dp.UpdatePos()
 			dp2.UpdatePos()
 			frame++
