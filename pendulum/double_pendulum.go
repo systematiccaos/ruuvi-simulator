@@ -6,15 +6,16 @@ import (
 )
 
 type Pendulum struct {
-	Radius     float64
-	StringLen  float64
-	Angle      float64
-	StartAngle float64
-	Start      Vector2
-	Position   Vector2
-	MoveBob    bool
-	Mass       float64
-	Velocity   float64
+	Radius        float64
+	StringLen     float64
+	Angle         float64
+	StartAngle    float64
+	Start         Vector2
+	Position      Vector2
+	MoveBob       bool
+	Mass          float64
+	Velocity      float64
+	Accelerations []Vector2
 }
 
 type DoublePendulum struct {
@@ -46,6 +47,10 @@ func (dp *DoublePendulum) MoveObjects(frametime float64) {
 	dp.P2.Velocity = dp.P2.Velocity / dp.Damp
 	dp.P1.Angle += dp.P1.Velocity * frametime
 	dp.P2.Angle += dp.P2.Velocity * frametime
+	if !math.IsNaN(p1acc) && !math.IsNaN(p2acc) {
+		dp.P1.Accelerations = append(dp.P1.Accelerations, dp.P1.ConvertToAcceleration())
+		dp.P2.Accelerations = append(dp.P2.Accelerations, dp.P2.ConvertToAcceleration())
+	}
 }
 
 func (dp *DoublePendulum) UpdatePos() {
@@ -105,5 +110,14 @@ func NewDoublePendulum(startx1 float64, starty1 float64, angle1 float64, angle2 
 	}
 	dp.P1.Position = Vector2{X: 100.0, Y: dp.P1.Start.Y + 200.0}
 	dp.P2.Position = Vector2{X: 100.0, Y: dp.P2.Start.Y + 150.0}
+	dp.P1.Accelerations = make([]Vector2, 0)
+	dp.P2.Accelerations = make([]Vector2, 0)
 	return dp
+}
+
+func (p *Pendulum) ConvertToAcceleration() Vector2 {
+	angularAcc := -p.StringLen * p.Velocity * p.Velocity * math.Sin(p.Angle)
+	xAcc := -angularAcc * math.Sin(p.Angle)
+	yAcc := angularAcc * math.Cos(p.Angle)
+	return Vector2{X: xAcc, Y: yAcc}
 }

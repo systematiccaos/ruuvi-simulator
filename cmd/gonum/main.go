@@ -9,6 +9,7 @@ import (
 	"gioui.org/layout"
 	"gioui.org/op"
 	"github.com/ajstarks/giocanvas"
+	"github.com/sirupsen/logrus"
 	"github.com/systematiccaos/going-forward/util"
 	"github.com/systematiccaos/ruuvi-simulator/pendulum"
 	"gonum.org/v1/plot/vg"
@@ -23,7 +24,7 @@ func main() {
 
 func run(w *app.Window) error {
 	var ops op.Ops
-	frame := 1.0
+	frame := 1
 	framerate := 60.0
 	dp := pendulum.NewDoublePendulum(50, 50, 2, 2.5, 5, 3)
 	dp2 := pendulum.NewDoublePendulum(80, 50, 2, 3.5, 5, 8)
@@ -70,6 +71,9 @@ func run(w *app.Window) error {
 			dp2.UpdatePos()
 			frame++
 			time.Sleep(time.Second / time.Duration(framerate))
+			if frame%600 == 0 {
+				logrus.Println(dp.P1.Accelerations)
+			}
 		}
 	}
 }
