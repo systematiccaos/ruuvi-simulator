@@ -24,7 +24,8 @@ func main() {
 func run(w *app.Window) error {
 	var ops op.Ops
 	frame := 1.0
-	dp := pendulum.NewDoublePendulum()
+	dp := pendulum.NewDoublePendulum(50, 50, 2, 2.5, 5, 7)
+	dp2 := pendulum.NewDoublePendulum(80, 50, 2, 3.5, 5, 8)
 	for {
 		e := <-w.Events()
 		switch e := e.(type) {
@@ -43,12 +44,8 @@ func run(w *app.Window) error {
 				Width:   1000.0,
 				Context: gtx,
 			}
-			gc.Line(float32(dp.P1.Start.X), float32(dp.P1.Start.Y), float32(dp.P1.Position.X), float32(dp.P1.Position.Y), 1.0, color.NRGBA{100, 100, 100, 255})
-			gc.Line(float32(dp.P2.Start.X), float32(dp.P2.Start.Y), float32(dp.P2.Position.X), float32(dp.P2.Position.Y), 1.0, color.NRGBA{100, 100, 100, 255})
-			gc.Circle(50.0, 50.0, 1, color.NRGBA{255, 255, 0, 255})
-
-			gc.Circle(float32(dp.P1.Position.X), float32(dp.P1.Position.Y), 1, color.NRGBA{255, 0, 0, 255})
-			gc.Circle(float32(dp.P2.Position.X), float32(dp.P2.Position.Y), 1, color.NRGBA{0, 0, 255, 255})
+			drawPendulum(dp, gc)
+			drawPendulum(dp2, gc)
 			// logrus.Printf("X: %f, Y: %f", dp.P1.Position.X, dp.P1.Position.Y)
 
 			// pts := plotter.XYs{
@@ -66,10 +63,21 @@ func run(w *app.Window) error {
 			e.Frame(cnv.Paint())
 			w.Invalidate()
 			dp.MoveObjects(1.0 / 60)
+			dp2.MoveObjects(1.0 / 60)
 			// logrus.Printf("frametime: %d", frame/60)
 			dp.UpdatePos()
+			dp2.UpdatePos()
 			frame++
 			time.Sleep(time.Second / 60)
 		}
 	}
+}
+
+func drawPendulum(dp pendulum.DoublePendulum, gc giocanvas.Canvas) {
+	gc.Line(float32(dp.P1.Start.X), float32(dp.P1.Start.Y), float32(dp.P1.Position.X), float32(dp.P1.Position.Y), 1.0, color.NRGBA{100, 100, 100, 255})
+	gc.Line(float32(dp.P2.Start.X), float32(dp.P2.Start.Y), float32(dp.P2.Position.X), float32(dp.P2.Position.Y), 1.0, color.NRGBA{100, 100, 100, 255})
+	gc.Circle(float32(dp.P1.Start.X), float32(dp.P1.Start.Y), 1, color.NRGBA{255, 255, 0, 255})
+
+	gc.Circle(float32(dp.P1.Position.X), float32(dp.P1.Position.Y), 1, color.NRGBA{255, 0, 0, 255})
+	gc.Circle(float32(dp.P2.Position.X), float32(dp.P2.Position.Y), 1, color.NRGBA{0, 0, 255, 255})
 }

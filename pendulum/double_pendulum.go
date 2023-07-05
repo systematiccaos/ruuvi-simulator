@@ -56,9 +56,13 @@ func (dp *DoublePendulum) UpdatePos() {
 	dp.P2.Position.Y = dp.P2.Start.Y + math.Cos(dp.P2.Angle)*dp.P2.StringLen
 }
 
-func NewDoublePendulum() DoublePendulum {
-	startx1 := 50.0
-	starty1 := 50.0
+func NewDoublePendulum(startx1 float64, starty1 float64, angle1 float64, angle2 float64, strlen1 float64, strlen2 float64) DoublePendulum {
+	if startx1 <= 0.0 {
+		startx1 = 50.0
+	}
+	if starty1 <= 0.0 {
+		starty1 = 50.0
+	}
 	dp := DoublePendulum{
 		G:    -98.0,
 		Damp: 1.0,
@@ -67,8 +71,8 @@ func NewDoublePendulum() DoublePendulum {
 				X: startx1,
 				Y: starty1,
 			},
-			StringLen: 5,
-			Angle:     2 / math.Pi,
+			StringLen: strlen1,
+			Angle:     angle1 / math.Pi,
 			Velocity:  0.1,
 			Mass:      10.0,
 		},
@@ -77,8 +81,8 @@ func NewDoublePendulum() DoublePendulum {
 				X: startx1,
 				Y: starty1,
 			},
-			StringLen: 7,
-			Angle:     2.5 / math.Pi,
+			StringLen: strlen2,
+			Angle:     angle2 / math.Pi,
 			Velocity:  0.1,
 			Mass:      10.0,
 		},
