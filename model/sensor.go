@@ -42,6 +42,7 @@ func (as *AccelerationSensor) Update() {
 		Acc_y:           as.dp.P1.Accelerations[len(as.dp.P1.Accelerations)-1].Y,
 		Acc_z:           9.81,
 		MovementCounter: len(as.dp.P1.Accelerations),
+		RecordedTime:    time.Now(),
 	})
 }
 
