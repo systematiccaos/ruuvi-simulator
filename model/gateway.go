@@ -10,7 +10,7 @@ type Gateway struct {
 func NewGateway() Gateway {
 	gw := Gateway{}
 	gw.Tags = []Tag{}
-	tagcnt := rand.Intn(50)
+	tagcnt := rand.Intn(5)
 	for i := 0; i < tagcnt; i++ {
 		tag := NewTag()
 		gw.Tags = append(gw.Tags, tag)

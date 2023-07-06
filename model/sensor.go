@@ -37,6 +37,12 @@ func (as *AccelerationSensor) GetMeasurements() []Measurement {
 
 func (as *AccelerationSensor) Update() {
 	as.calcPendulums()
+	as.Measurements = append(as.Measurements, AccelerationMeasurement{
+		Acc_x:           as.dp.P1.Accelerations[len(as.dp.P1.Accelerations)-1].X,
+		Acc_y:           as.dp.P1.Accelerations[len(as.dp.P1.Accelerations)-1].Y,
+		Acc_z:           9.81,
+		MovementCounter: len(as.dp.P1.Accelerations),
+	})
 }
 
 func (as *AccelerationSensor) calcPendulums() {

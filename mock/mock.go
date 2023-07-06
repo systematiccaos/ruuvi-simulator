@@ -8,18 +8,28 @@ import (
 	"github.com/systematiccaos/ruuvi-simulator/model"
 )
 
+var instance *Mock
+
 type Mock struct {
 	Gateways []model.Gateway
 }
 
-func StartMock() Mock {
+func GetMock() *Mock {
+	if instance != nil {
+		return instance
+	}
+	instance = startMock()
+	return instance
+}
+
+func startMock() *Mock {
 	mock := Mock{}
 	for i := 0; i < rand.Intn(100); i++ {
 		gw := model.NewGateway()
 		mock.Gateways = append(mock.Gateways, gw)
 	}
 	logrus.Println(mock)
-	return mock
+	return &mock
 }
 
 func (m *Mock) Run() {
@@ -27,7 +37,7 @@ func (m *Mock) Run() {
 	for {
 		i++
 		for _, gw := range m.Gateways {
-			go gw.Update()
+			gw.Update()
 		}
 		time.Sleep((1 / 60) * time.Second)
 	}

@@ -15,7 +15,7 @@ func main() {
 	// go calcPendulums()
 	r := gin.Default()
 	web.SetupRoutes(r)
-	m := mock.StartMock()
+	m := mock.GetMock()
 	go m.Run()
 	r.Run()
 	// <-waitch

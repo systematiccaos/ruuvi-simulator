@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/systematiccaos/ruuvi-simulator/mock"
 )
 
 func SetupRoutes(r *gin.Engine) {
@@ -80,9 +81,8 @@ func listConfHandler(c *gin.Context) {
 //	@Success		200	{string}	json-conf
 //	@Router			/list [get]
 func listNodesHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
+	gws := mock.GetMock().Gateways
+	c.JSON(http.StatusOK, gws)
 }
 
 //	@BasePath	/api/v1/acc-data
