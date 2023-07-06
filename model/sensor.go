@@ -3,7 +3,6 @@ package model
 import (
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/systematiccaos/ruuvi-simulator/pendulum"
 )
 
@@ -16,22 +15,20 @@ type AccelerationSensor struct {
 	Measurements []Measurement
 	frame        int
 	framerate    float64
-	dp           pendulum.DoublePendulum
-	dp2          pendulum.DoublePendulum
+	dp           *pendulum.DoublePendulum
+	dp2          *pendulum.DoublePendulum
 }
 
 func NewAccelerationSensor() AccelerationSensor {
+	dp1 := pendulum.NewDoublePendulum(50, 50, 2, 2.5, 5, 3)
+	dp2 := pendulum.NewDoublePendulum(80, 50, 2, 3.5, 5, 8)
 	as := AccelerationSensor{
 		frame:     0,
 		framerate: 60.0,
-		dp:        pendulum.NewDoublePendulum(50, 50, 2, 2.5, 5, 3),
-		dp2:       pendulum.NewDoublePendulum(80, 50, 2, 3.5, 5, 8),
+		dp:        &dp1,
+		dp2:       &dp2,
 	}
 	return as
-}
-
-func (as *AccelerationSensor) runMeasurementCalculation() {
-	as.calcPendulums()
 }
 
 func (as *AccelerationSensor) GetMeasurements() []Measurement {
@@ -39,7 +36,7 @@ func (as *AccelerationSensor) GetMeasurements() []Measurement {
 }
 
 func (as *AccelerationSensor) Update() {
-	as.runMeasurementCalculation()
+	as.calcPendulums()
 }
 
 func (as *AccelerationSensor) calcPendulums() {
@@ -52,7 +49,7 @@ func (as *AccelerationSensor) calcPendulums() {
 		if start < 0 {
 			start = 0
 		}
-		logrus.Println(as.dp.P1.Accelerations[start:])
+		// logrus.Println(as.dp.P1.Accelerations)
 	}
 	time.Sleep(time.Second / time.Duration(as.framerate))
 	as.frame++

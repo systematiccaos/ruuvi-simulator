@@ -17,3 +17,9 @@ func NewGateway() Gateway {
 	}
 	return gw
 }
+
+func (g *Gateway) Update() {
+	for _, tag := range g.Tags {
+		tag.Update()
+	}
+}

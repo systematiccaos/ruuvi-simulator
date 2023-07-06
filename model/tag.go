@@ -18,7 +18,8 @@ func NewTag() Tag {
 		Name:    "ruuvi_" + fmt.Sprintf("%x%x", sfx1, sfx2),
 		Address: fmt.Sprintf("%x:%x:%x:%x:%x:%x", rand.Intn(255), rand.Intn(255), rand.Intn(255), rand.Intn(255), sfx1, sfx2),
 	}
-	tag.Sensors = append(tag.Sensors, &AccelerationSensor{})
+	as := NewAccelerationSensor()
+	tag.Sensors = append(tag.Sensors, &as)
 	return tag
 }
 
