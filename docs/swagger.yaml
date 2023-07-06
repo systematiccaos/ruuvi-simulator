@@ -1,7 +1,44 @@
-basePath: /api/v1
+basePath: /api/v1/acc-data
 info:
   contact: {}
 paths:
+  /data/{tag}:
+    get:
+      consumes:
+      - application/json
+      description: gets data of the specified tag - get your tags via "list" first
+      parameters:
+      - description: the tags name
+        example: '"ruuvi_1234"'
+        in: path
+        name: tag
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: gets acc data of the specified tag
+      tags:
+      - config
+  /list:
+    get:
+      consumes:
+      - application/json
+      description: gets data of the specified tag - get your tags via "list" first
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: gets acc data of the specified tag
+      tags:
+      - config
   /ping:
     get:
       consumes:
