@@ -47,7 +47,7 @@ func (dp *DoublePendulum) MoveObjects(frametime float64) {
 	dp.P2.Velocity = dp.P2.Velocity / dp.Damp
 	dp.P1.Angle += dp.P1.Velocity * frametime
 	dp.P2.Angle += dp.P2.Velocity * frametime
-	if !math.IsNaN(p1acc) && !math.IsNaN(p2acc) {
+	if !math.IsNaN(p1acc) && !math.IsNaN(p2acc) && !math.IsInf(p1acc, 0) && !math.IsInf(p2acc, 0) {
 		dp.P1.Accelerations = append(dp.P1.Accelerations, dp.P1.ConvertToAcceleration())
 		dp.P2.Accelerations = append(dp.P2.Accelerations, dp.P2.ConvertToAcceleration())
 	}
