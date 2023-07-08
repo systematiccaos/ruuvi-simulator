@@ -170,6 +170,9 @@ const docTemplate = `{
                 "gateway_config": {
                     "$ref": "#/definitions/model.GatewayConfig"
                 },
+                "last_contact": {
+                    "type": "string"
+                },
                 "tags": {
                     "type": "array",
                     "items": {

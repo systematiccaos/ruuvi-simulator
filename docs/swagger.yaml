@@ -12,6 +12,8 @@ definitions:
     properties:
       gateway_config:
         $ref: '#/definitions/model.GatewayConfig'
+      last_contact:
+        type: string
       tags:
         items:
           $ref: '#/definitions/model.Tag'
