@@ -1,8 +1,38 @@
-basePath: /api/v1/acc-data
+basePath: /api/v1
+definitions:
+  model.AccelerationSensor:
+    properties:
+      measurements:
+        items: {}
+        type: array
+      type:
+        type: string
+    type: object
+  model.Gateway:
+    properties:
+      gateway_config:
+        $ref: '#/definitions/model.GatewayConfig'
+      tags:
+        items:
+          $ref: '#/definitions/model.Tag'
+        type: array
+    type: object
+  model.GatewayConfig:
+    type: object
+  model.Tag:
+    properties:
+      address:
+        type: string
+      name:
+        type: string
+      sensors:
+        items: {}
+        type: array
+    type: object
 info:
   contact: {}
 paths:
-  /data/{tag}:
+  /acc-data/{tag}:
     get:
       consumes:
       - application/json
@@ -23,8 +53,8 @@ paths:
             type: string
       summary: gets acc data of the specified tag
       tags:
-      - config
-  /list:
+      - acc-data
+  /acc-data/list:
     get:
       consumes:
       - application/json
@@ -35,8 +65,28 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/model.AccelerationSensor'
+            type: array
       summary: gets acc data of the specified tag
+      tags:
+      - acc-data
+  /config/list:
+    get:
+      consumes:
+      - application/json
+      description: get configs of gateways to be able to decide on version updates
+        etc.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.GatewayConfig'
+            type: array
+      summary: lists available configs
       tags:
       - config
   /ping:
@@ -54,4 +104,21 @@ paths:
       summary: ping example
       tags:
       - example
+  /structure/list:
+    get:
+      consumes:
+      - application/json
+      description: lists gateways
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Gateway'
+            type: array
+      summary: lists available gateways
+      tags:
+      - structure
 swagger: "2.0"

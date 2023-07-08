@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/data/{tag}": {
+        "/acc-data/list": {
             "get": {
                 "description": "gets data of the specified tag - get your tags via \"list\" first",
                 "consumes": [
@@ -26,7 +26,33 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "config"
+                    "acc-data"
+                ],
+                "summary": "gets acc data of the specified tag",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.AccelerationSensor"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/acc-data/{tag}": {
+            "get": {
+                "description": "gets data of the specified tag - get your tags via \"list\" first",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "acc-data"
                 ],
                 "summary": "gets acc data of the specified tag",
                 "parameters": [
@@ -49,9 +75,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/list": {
+        "/config/list": {
             "get": {
-                "description": "gets data of the specified tag - get your tags via \"list\" first",
+                "description": "get configs of gateways to be able to decide on version updates etc.",
                 "consumes": [
                     "application/json"
                 ],
@@ -61,12 +87,15 @@ const docTemplate = `{
                 "tags": [
                     "config"
                 ],
-                "summary": "gets acc data of the specified tag",
+                "summary": "lists available configs",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.GatewayConfig"
+                            }
                         }
                     }
                 }
@@ -94,6 +123,78 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/structure/list": {
+            "get": {
+                "description": "lists gateways",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "structure"
+                ],
+                "summary": "lists available gateways",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Gateway"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.AccelerationSensor": {
+            "type": "object",
+            "properties": {
+                "measurements": {
+                    "type": "array",
+                    "items": {}
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Gateway": {
+            "type": "object",
+            "properties": {
+                "gateway_config": {
+                    "$ref": "#/definitions/model.GatewayConfig"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Tag"
+                    }
+                }
+            }
+        },
+        "model.GatewayConfig": {
+            "type": "object"
+        },
+        "model.Tag": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sensors": {
+                    "type": "array",
+                    "items": {}
+                }
+            }
         }
     }
 }`
@@ -102,7 +203,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
 	Host:             "",
-	BasePath:         "/api/v1/acc-data",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "",
 	Description:      "",

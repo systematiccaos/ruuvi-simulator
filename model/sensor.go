@@ -12,11 +12,12 @@ type Sensor interface {
 }
 
 type AccelerationSensor struct {
-	Measurements []Measurement
-	frame        int
-	framerate    float64
-	dp           *pendulum.DoublePendulum
-	dp2          *pendulum.DoublePendulum
+	Measurements []Measurement            `json:"measurements,omitempty"`
+	Tp           string                   `json:"type"`
+	frame        int                      `json:"-"`
+	framerate    float64                  `json:"-"`
+	dp           *pendulum.DoublePendulum `json:"-"`
+	dp2          *pendulum.DoublePendulum `json:"-"`
 }
 
 func NewAccelerationSensor() AccelerationSensor {
@@ -27,6 +28,7 @@ func NewAccelerationSensor() AccelerationSensor {
 		framerate: 60.0,
 		dp:        &dp1,
 		dp2:       &dp2,
+		Tp:        "AccelerationSensor",
 	}
 	return as
 }
@@ -37,7 +39,7 @@ func (as *AccelerationSensor) GetMeasurements() []Measurement {
 
 func (as *AccelerationSensor) Update() {
 	as.calcPendulums()
-	as.Measurements = append(as.Measurements, AccelerationMeasurement{
+	as.Measurements = append(as.Measurements, &AccelerationMeasurement{
 		Acc_x:           as.dp.P1.Accelerations[len(as.dp.P1.Accelerations)-1].X,
 		Acc_y:           as.dp.P1.Accelerations[len(as.dp.P1.Accelerations)-1].Y,
 		Acc_z:           9.81,

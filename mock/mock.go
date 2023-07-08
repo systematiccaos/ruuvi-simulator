@@ -11,7 +11,7 @@ import (
 var instance *Mock
 
 type Mock struct {
-	Gateways []model.Gateway
+	Gateways []model.Gateway `json:"gateways,omitempty"`
 }
 
 func GetMock() *Mock {

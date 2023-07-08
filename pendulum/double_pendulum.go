@@ -1,8 +1,11 @@
 package pendulum
 
 import (
+	"errors"
 	"math"
 	"math/rand"
+
+	"github.com/sirupsen/logrus"
 )
 
 type Pendulum struct {
@@ -48,8 +51,16 @@ func (dp *DoublePendulum) MoveObjects(frametime float64) {
 	dp.P1.Angle += dp.P1.Velocity * frametime
 	dp.P2.Angle += dp.P2.Velocity * frametime
 	if !math.IsNaN(p1acc) && !math.IsNaN(p2acc) && !math.IsInf(p1acc, 0) && !math.IsInf(p2acc, 0) {
-		dp.P1.Accelerations = append(dp.P1.Accelerations, dp.P1.ConvertToAcceleration())
-		dp.P2.Accelerations = append(dp.P2.Accelerations, dp.P2.ConvertToAcceleration())
+		acclsP1, err := dp.P1.ConvertToAcceleration()
+		if err != nil {
+			return
+		}
+		acclsP2, err := dp.P2.ConvertToAcceleration()
+		if err != nil {
+			return
+		}
+		dp.P1.Accelerations = append(dp.P1.Accelerations, acclsP1)
+		dp.P2.Accelerations = append(dp.P2.Accelerations, acclsP2)
 	}
 }
 
@@ -115,9 +126,14 @@ func NewDoublePendulum(startx1 float64, starty1 float64, angle1 float64, angle2 
 	return dp
 }
 
-func (p *Pendulum) ConvertToAcceleration() Vector2 {
+func (p *Pendulum) ConvertToAcceleration() (Vector2, error) {
 	angularAcc := -p.StringLen * p.Velocity * p.Velocity * math.Sin(p.Angle)
 	xAcc := -angularAcc * math.Sin(p.Angle)
 	yAcc := angularAcc * math.Cos(p.Angle)
-	return Vector2{X: xAcc, Y: yAcc}
+	if math.IsInf(xAcc, 0) || math.IsInf(yAcc, 0) {
+		logrus.Errorln("error - found inf")
+		err := errors.New("error - found inf")
+		return Vector2{}, err
+	}
+	return Vector2{X: xAcc, Y: yAcc}, nil
 }
