@@ -12,6 +12,7 @@ var instance *Mock
 
 type Mock struct {
 	Gateways []model.Gateway `json:"gateways,omitempty"`
+	Tags     []model.Tag     `json:"tags,omitempty"`
 }
 
 func GetMock() *Mock {
@@ -27,6 +28,7 @@ func startMock() *Mock {
 	for i := 0; i < rand.Intn(100); i++ {
 		gw := model.NewGateway()
 		mock.Gateways = append(mock.Gateways, gw)
+		mock.Tags = append(mock.Tags, gw.Tags...)
 	}
 	logrus.Println(mock)
 	return &mock
@@ -39,6 +41,6 @@ func (m *Mock) Run() {
 		for _, gw := range m.Gateways {
 			gw.Update()
 		}
-		time.Sleep((1 / 60) * time.Second)
+		time.Sleep(time.Second / 60)
 	}
 }

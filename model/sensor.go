@@ -34,7 +34,13 @@ func NewAccelerationSensor() AccelerationSensor {
 }
 
 func (as *AccelerationSensor) GetMeasurements() []Measurement {
-	return as.Measurements
+	cleanedMeasurements := []Measurement{}
+	for _, m := range as.Measurements {
+		if m != nil {
+			cleanedMeasurements = append(cleanedMeasurements, m)
+		}
+	}
+	return cleanedMeasurements
 }
 
 func (as *AccelerationSensor) Update() {

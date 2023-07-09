@@ -18,7 +18,8 @@ func SetupRoutes(r *gin.Engine) {
 		}
 		accdatagrp := v1.Group("acc-data")
 		{
-			accdatagrp.GET("data/:tag", getAccDataHandler)
+			accdatagrp.GET("get/:tag", getAccDataHandler)
+			accdatagrp.GET("get/:tag/:page", getAccDataHandler)
 			accdatagrp.GET("list", listAccTagsHandler)
 		}
 		structuregrp := v1.Group("structure")

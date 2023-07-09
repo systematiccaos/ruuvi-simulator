@@ -36,5 +36,5 @@ func listNodesHandler(c *gin.Context) {
 			clone.Gateways[i].Tags[idx].Sensors = []model.Sensor{}
 		}
 	}
-	c.JSON(http.StatusOK, mck)
+	c.JSON(http.StatusOK, clone)
 }
