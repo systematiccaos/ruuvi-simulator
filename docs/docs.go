@@ -162,7 +162,7 @@ const docTemplate = `{
                 "tags": [
                     "structure"
                 ],
-                "summary": "lists available tags",
+                "summary": "lists available tags - get the gateway_id from structure/gateway/list",
                 "responses": {
                     "200": {
                         "description": "OK",

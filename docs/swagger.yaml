@@ -147,7 +147,7 @@ paths:
             items:
               $ref: '#/definitions/model.Gateway'
             type: array
-      summary: lists available tags
+      summary: lists available tags - get the gateway_id from structure/gateway/list
       tags:
       - structure
 swagger: "2.0"

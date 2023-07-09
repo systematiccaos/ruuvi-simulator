@@ -49,7 +49,7 @@ func listNodesHandler(c *gin.Context) {
 
 // List godoc
 //
-//	@Summary	lists available tags
+//	@Summary	lists available tags - get the gateway_id from structure/gateway/list
 //	@Schemes
 //	@Description	lists tags
 //	@Tags			structure
