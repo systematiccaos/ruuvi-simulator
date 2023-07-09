@@ -6,10 +6,11 @@ import (
 )
 
 type Gateway struct {
-	Tags        []Tag         `json:"tags"`
-	Config      GatewayConfig `json:"gateway_config"`
-	LastContact time.Time     `json:"last_contact"`
-	Online      bool          `json:"online"`
+	Tags           []Tag         `json:"tags"`
+	Config         GatewayConfig `json:"gateway_config"`
+	NetworkSegment int           `json:"network_segment"`
+	LastContact    time.Time     `json:"last_contact"`
+	Online         bool          `json:"online"`
 }
 
 func NewGateway() Gateway {
@@ -17,7 +18,8 @@ func NewGateway() Gateway {
 	gw.Online = !(rand.Float32() < 0.2)
 	gw.LastContact = time.Now()
 	gw.Tags = []Tag{}
-	tagcnt := rand.Intn(5)
+	tagcnt := rand.Intn(15)
+	gw.NetworkSegment = rand.Intn(5)
 	for i := 0; i < tagcnt; i++ {
 		tag := NewTag()
 		gw.Tags = append(gw.Tags, tag)

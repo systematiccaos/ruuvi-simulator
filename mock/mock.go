@@ -26,7 +26,7 @@ func GetMock() *Mock {
 
 func startMock() *Mock {
 	mock := Mock{}
-	for i := 0; i < rand.Intn(100); i++ {
+	for i := 0; i < rand.Intn(50); i++ {
 		gw := model.NewGateway()
 		mock.Gateways = append(mock.Gateways, gw)
 		mock.Tags = append(mock.Tags, gw.Tags...)
