@@ -4,7 +4,6 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/systematiccaos/ruuvi-simulator/model"
 	"github.com/systematiccaos/ruuvi-simulator/utils"
 )
@@ -31,7 +30,7 @@ func startMock() *Mock {
 		mock.Gateways = append(mock.Gateways, gw)
 		mock.Tags = append(mock.Tags, gw.Tags...)
 	}
-	logrus.Println(mock)
+	// logrus.Println(mock)
 	return &mock
 }
 
