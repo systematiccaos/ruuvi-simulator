@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -11,6 +12,7 @@ type Gateway struct {
 	NetworkSegment int           `json:"network_segment"`
 	LastContact    time.Time     `json:"last_contact"`
 	Online         bool          `json:"online"`
+	IPAdress       string        `json:"ip_address"`
 }
 
 func NewGateway() Gateway {
@@ -20,6 +22,7 @@ func NewGateway() Gateway {
 	gw.Tags = []Tag{}
 	tagcnt := rand.Intn(15)
 	gw.NetworkSegment = rand.Intn(5)
+	gw.IPAdress = fmt.Sprintf("%d.%d.%d.%d", 10, 0, gw.NetworkSegment, rand.Intn(254))
 	for i := 0; i < tagcnt; i++ {
 		tag := NewTag()
 		gw.Tags = append(gw.Tags, tag)

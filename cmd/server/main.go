@@ -1,6 +1,8 @@
 package main
 
 import (
+	"math/rand"
+
 	_ "github.com/systematiccaos/ruuvi-simulator/docs"
 	"github.com/systematiccaos/ruuvi-simulator/mock"
 
@@ -13,6 +15,7 @@ func main() {
 	util.SetupLogs()
 	// waitch := make(chan bool)
 	// go calcPendulums()
+	rand.Seed(1010)
 	r := gin.Default()
 	web.SetupRoutes(r)
 	m := mock.GetMock()
