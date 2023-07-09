@@ -33,6 +33,8 @@ func listNodesHandler(c *gin.Context) {
 	clone.Gateways = reflect.ValueOf(cloneif).Interface().([]model.Gateway)
 	for i := range clone.Gateways {
 		clone.Gateways[i].Tags = nil
+		clone.Gateways[i].LastContact = mck.Gateways[i].LastContact
+		clone.Gateways[i].Online = mck.Gateways[i].Online
 	}
 	// for i := range clone.Gateways {
 	// 	clone.Gateways[i].LastContact = mck.Gateways[i].LastContact
@@ -56,6 +58,7 @@ func listNodesHandler(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	[]model.Gateway
+//	@Param			gateway_id	path	string	true	"id of the gateway"
 //	@Router			/structure/tag/list/{gateway_id} [get]
 func listTagsHandler(c *gin.Context) {
 	gwid := c.Param("gateway")

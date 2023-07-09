@@ -39,7 +39,7 @@ func (g *Gateway) Update() {
 	if g.Online {
 		g.LastContact = time.Now()
 	}
-	if rand.Float32() < 0.000005 {
+	if rand.Float32() < 0.00005 {
 		g.Online = !g.Online
 	}
 	if !g.Online {

@@ -163,6 +163,15 @@ const docTemplate = `{
                     "structure"
                 ],
                 "summary": "lists available tags - get the gateway_id from structure/gateway/list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of the gateway",
+                        "name": "gateway_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
