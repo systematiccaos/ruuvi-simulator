@@ -2,7 +2,10 @@ package main
 
 import (
 	"math/rand"
+	"os"
+	"strconv"
 
+	"github.com/sirupsen/logrus"
 	_ "github.com/systematiccaos/ruuvi-simulator/docs"
 	"github.com/systematiccaos/ruuvi-simulator/mock"
 
@@ -15,7 +18,15 @@ func main() {
 	util.SetupLogs()
 	// waitch := make(chan bool)
 	// go calcPendulums()
-	rand.Seed(1010)
+	seedno := 1010
+	if os.Getenv("SEED") != "" {
+		var err error
+		seedno, err = strconv.Atoi(os.Getenv("SEED"))
+		if err != nil {
+			logrus.Fatalln(err)
+		}
+	}
+	rand.Seed(int64(seedno))
 	r := gin.Default()
 	web.SetupRoutes(r)
 	m := mock.GetMock()

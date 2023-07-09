@@ -16,33 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/acc-data/list": {
-            "get": {
-                "description": "gets data of the specified tag - get your tags via \"list\" first",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "acc-data"
-                ],
-                "summary": "gets acc data of the specified tag",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.AccelerationSensor"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/acc-data/{tag}": {
+        "/acc-data/get/{tag}/{page}": {
             "get": {
                 "description": "gets data of the specified tag - get your tags via \"list\" first",
                 "consumes": [
@@ -70,6 +44,32 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/acc-data/list": {
+            "get": {
+                "description": "gets data of the specified tag - get your tags via \"list\" first",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "acc-data"
+                ],
+                "summary": "gets acc data of the specified tag",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.AccelerationSensor"
+                            }
                         }
                     }
                 }
@@ -124,7 +124,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/structure/list": {
+        "/structure/gateway/list": {
             "get": {
                 "description": "lists gateways",
                 "consumes": [
@@ -137,6 +137,32 @@ const docTemplate = `{
                     "structure"
                 ],
                 "summary": "lists available gateways",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Gateway"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/structure/tag/list/{gateway_id}": {
+            "get": {
+                "description": "lists tags",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "structure"
+                ],
+                "summary": "lists available tags",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -167,11 +193,20 @@ const docTemplate = `{
         "model.Gateway": {
             "type": "object",
             "properties": {
-                "gateway_config": {
-                    "$ref": "#/definitions/model.GatewayConfig"
+                "id": {
+                    "type": "string"
+                },
+                "ip_address": {
+                    "type": "string"
                 },
                 "last_contact": {
                     "type": "string"
+                },
+                "network_segment": {
+                    "type": "integer"
+                },
+                "online": {
+                    "type": "boolean"
                 },
                 "tags": {
                     "type": "array",
@@ -190,8 +225,14 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
+                "last_contact": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
+                },
+                "online": {
+                    "type": "boolean"
                 },
                 "sensors": {
                     "type": "array",

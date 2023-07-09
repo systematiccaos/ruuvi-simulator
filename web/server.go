@@ -24,7 +24,8 @@ func SetupRoutes(r *gin.Engine) {
 		}
 		structuregrp := v1.Group("structure")
 		{
-			structuregrp.GET("list", listNodesHandler)
+			structuregrp.GET("gateway/list", listNodesHandler)
+			structuregrp.GET("tag/list/:gateway", listTagsHandler)
 		}
 	}
 	// r.GET("/ping", pingHandler)

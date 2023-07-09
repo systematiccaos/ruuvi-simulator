@@ -56,14 +56,16 @@ func listNodesHandler(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	[]model.Gateway
-//	@Router			/structure/tag/list/{gateway} [get]
+//	@Router			/structure/tag/list/{gateway_id} [get]
 func listTagsHandler(c *gin.Context) {
+	gwid := c.Param("gateway")
 	mck := mock.GetMock()
 	clone := mock.Mock{}
 	cloneif, err := deepcopy.Anything(mck.Gateways)
 	if err != nil {
 		logrus.Errorln(err)
 	}
+	gw := model.Gateway{}
 	clone.Gateways = reflect.ValueOf(cloneif).Interface().([]model.Gateway)
 	for i := range clone.Gateways {
 		clone.Gateways[i].LastContact = mck.Gateways[i].LastContact
@@ -72,6 +74,9 @@ func listTagsHandler(c *gin.Context) {
 			clone.Gateways[i].Tags[idx].LastContact = mck.Gateways[i].Tags[idx].LastContact
 			clone.Gateways[i].Tags[idx].Online = mck.Gateways[i].Tags[idx].Online
 		}
+		if clone.Gateways[i].ID == gwid {
+			gw = clone.Gateways[i]
+		}
 	}
-	c.JSON(http.StatusOK, clone)
+	c.JSON(http.StatusOK, gw.Tags)
 }

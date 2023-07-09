@@ -12,7 +12,7 @@ type Tag struct {
 	Name        string    `json:"name"`
 	LastContact time.Time `json:"last_contact"`
 	Online      bool      `json:"online"`
-	WantsChange bool      `json:"wants_change"`
+	WantsChange bool      `json:"-"`
 }
 
 func NewTag() Tag {
