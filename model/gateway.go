@@ -26,13 +26,16 @@ func NewGateway() Gateway {
 }
 
 func (g *Gateway) Update() {
-	for _, tag := range g.Tags {
-		tag.Update()
-	}
 	if g.Online {
 		g.LastContact = time.Now()
 	}
-	if !(rand.Float32() < 0.05) {
+	if rand.Float32() < 0.000005 {
 		g.Online = !g.Online
+	}
+	if !g.Online {
+		return
+	}
+	for i := range g.Tags {
+		g.Tags[i].Update()
 	}
 }

@@ -6,6 +6,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/systematiccaos/ruuvi-simulator/model"
+	"github.com/systematiccaos/ruuvi-simulator/utils"
 )
 
 var instance *Mock
@@ -38,8 +39,18 @@ func (m *Mock) Run() {
 	i := 0
 	for {
 		i++
-		for _, gw := range m.Gateways {
-			gw.Update()
+		for i := range m.Gateways {
+			m.Gateways[i].Update()
+			for idx := range m.Gateways[i].Tags {
+				if m.Gateways[i].Tags[idx].WantsChange {
+					newidx := i + 1
+					if i+1 < len(m.Gateways[i].Tags) {
+						newidx = 0
+					}
+					m.Gateways[newidx].Tags = append(m.Gateways[i].Tags, m.Gateways[i].Tags[idx])
+					utils.DeleteItem[model.Tag](m.Gateways[i].Tags, idx)
+				}
+			}
 		}
 		time.Sleep(time.Second / 60)
 	}

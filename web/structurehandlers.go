@@ -25,15 +25,18 @@ import (
 //	@Router			/structure/list [get]
 func listNodesHandler(c *gin.Context) {
 	mck := mock.GetMock()
-	cloneif, err := deepcopy.Anything(mck)
+	clone := mock.Mock{}
+	cloneif, err := deepcopy.Anything(mck.Gateways)
 	if err != nil {
 		logrus.Errorln(err)
 	}
-	clone := reflect.ValueOf(cloneif).Elem().Interface().(mock.Mock)
+	clone.Gateways = reflect.ValueOf(cloneif).Interface().([]model.Gateway)
 	for i := range clone.Gateways {
 		clone.Gateways[i].LastContact = mck.Gateways[i].LastContact
 		for idx := range clone.Gateways[i].Tags {
 			clone.Gateways[i].Tags[idx].Sensors = []model.Sensor{}
+			clone.Gateways[i].Tags[idx].LastContact = mck.Gateways[i].Tags[idx].LastContact
+			clone.Gateways[i].Tags[idx].Online = mck.Gateways[i].Tags[idx].Online
 		}
 	}
 	c.JSON(http.StatusOK, clone)
