@@ -26,6 +26,15 @@ definitions:
         type: array
     type: object
   model.GatewayConfig:
+    properties:
+      api_timeout:
+        type: number
+      max_allowed_clients:
+        type: integer
+      poll_interval:
+        type: integer
+      version:
+        type: string
     type: object
   model.Tag:
     properties:
@@ -50,8 +59,8 @@ paths:
       - application/json
       description: gets data of the specified tag - get your tags via "list" first
       parameters:
-      - description: the tags name
-        example: '"ruuvi_1234"'
+      - description: the tags address
+        example: '"12:34:56:78:90:12"'
         in: path
         name: tag
         required: true
@@ -83,12 +92,48 @@ paths:
       summary: gets acc data of the specified tag
       tags:
       - acc-data
-  /config/list:
+  /config/get/{gatewayid}:
     get:
       consumes:
       - application/json
-      description: get configs of gateways to be able to decide on version updates
-        etc.
+      description: get config of a specific gateway to be able to decide on version
+        updates etc. To find the gateways id use /structure/gateway/list
+      parameters:
+      - description: the gateways id
+        in: path
+        name: gatewayid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.GatewayConfig'
+            type: array
+      summary: lists available configs
+      tags:
+      - config
+  /config/get/{gatewayid}/{tagaddress}:
+    get:
+      consumes:
+      - application/json
+      description: get config of a specific gateway to be able to decide on version
+        updates etc. To find the gateways id use /structure/gateway/list, to get the
+        tags address use /structure/tag/list/{gatewayid}
+      parameters:
+      - description: the gateways id
+        in: path
+        name: gatewayid
+        required: true
+        type: string
+      - description: the tags id
+        in: path
+        name: tagaddress
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -115,7 +160,7 @@ paths:
             type: string
       summary: ping example
       tags:
-      - example
+      - ping
   /structure/gateway/list:
     get:
       consumes:
@@ -133,7 +178,7 @@ paths:
       summary: lists available gateways
       tags:
       - structure
-  /structure/tag/list/{gateway_id}:
+  /structure/tag/list/{gatewayid}:
     get:
       consumes:
       - application/json

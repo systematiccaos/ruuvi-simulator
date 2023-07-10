@@ -12,9 +12,10 @@ func SetupRoutes(r *gin.Engine) {
 	v1 := r.Group("api/v1")
 	{
 		v1.GET("ping", pingHandler)
-		cfggrp := v1.Group("conf")
+		cfggrp := v1.Group("config")
 		{
-			cfggrp.GET("list", listConfHandler)
+			cfggrp.GET("get/:gatewayid", getConfHandler)
+			cfggrp.GET("get/:gatewayid/:tagaddress", getTagConfHandler)
 		}
 		accdatagrp := v1.Group("acc-data")
 		{
@@ -28,7 +29,6 @@ func SetupRoutes(r *gin.Engine) {
 			structuregrp.GET("tag/list/:gateway", listTagsHandler)
 		}
 	}
-	// r.GET("/ping", pingHandler)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.InstanceName("swagger")))
 
 }
@@ -40,7 +40,7 @@ func SetupRoutes(r *gin.Engine) {
 //	@Summary	ping example
 //	@Schemes
 //	@Description	do ping
-//	@Tags			example
+//	@Tags			ping
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{string}	pong

@@ -32,8 +32,8 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "example": "\"ruuvi_1234\"",
-                        "description": "the tags name",
+                        "example": "\"12:34:56:78:90:12\"",
+                        "description": "the tags address",
                         "name": "tag",
                         "in": "path",
                         "required": true
@@ -75,9 +75,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/config/list": {
+        "/config/get/{gatewayid}": {
             "get": {
-                "description": "get configs of gateways to be able to decide on version updates etc.",
+                "description": "get config of a specific gateway to be able to decide on version updates etc. To find the gateways id use /structure/gateway/list",
                 "consumes": [
                     "application/json"
                 ],
@@ -88,6 +88,57 @@ const docTemplate = `{
                     "config"
                 ],
                 "summary": "lists available configs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the gateways id",
+                        "name": "gatewayid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.GatewayConfig"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/config/get/{gatewayid}/{tagaddress}": {
+            "get": {
+                "description": "get config of a specific gateway to be able to decide on version updates etc. To find the gateways id use /structure/gateway/list, to get the tags address use /structure/tag/list/{gatewayid}",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "config"
+                ],
+                "summary": "lists available configs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the gateways id",
+                        "name": "gatewayid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "the tags id",
+                        "name": "tagaddress",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -111,7 +162,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "example"
+                    "ping"
                 ],
                 "summary": "ping example",
                 "responses": {
@@ -150,7 +201,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/structure/tag/list/{gateway_id}": {
+        "/structure/tag/list/{gatewayid}": {
             "get": {
                 "description": "lists tags",
                 "consumes": [
@@ -226,7 +277,21 @@ const docTemplate = `{
             }
         },
         "model.GatewayConfig": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "api_timeout": {
+                    "type": "number"
+                },
+                "max_allowed_clients": {
+                    "type": "integer"
+                },
+                "poll_interval": {
+                    "type": "integer"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
         },
         "model.Tag": {
             "type": "object",

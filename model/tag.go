@@ -13,6 +13,7 @@ type Tag struct {
 	LastContact time.Time `json:"last_contact"`
 	Online      bool      `json:"online"`
 	WantsChange bool      `json:"-"`
+	Config      TagConfig `json:"-"`
 }
 
 func NewTag() Tag {
@@ -25,6 +26,7 @@ func NewTag() Tag {
 		Online:      true,
 	}
 	as := NewAccelerationSensor()
+	tag.Config = NewTagConfig()
 	tag.Sensors = append(tag.Sensors, &as)
 	return tag
 }

@@ -36,14 +36,6 @@ func listNodesHandler(c *gin.Context) {
 		clone.Gateways[i].LastContact = mck.Gateways[i].LastContact
 		clone.Gateways[i].Online = mck.Gateways[i].Online
 	}
-	// for i := range clone.Gateways {
-	// 	clone.Gateways[i].LastContact = mck.Gateways[i].LastContact
-	// 	for idx := range clone.Gateways[i].Tags {
-	// 		clone.Gateways[i].Tags[idx].Sensors = []model.Sensor{}
-	// 		clone.Gateways[i].Tags[idx].LastContact = mck.Gateways[i].Tags[idx].LastContact
-	// 		clone.Gateways[i].Tags[idx].Online = mck.Gateways[i].Tags[idx].Online
-	// 	}
-	// }
 	c.JSON(http.StatusOK, clone)
 }
 
@@ -59,7 +51,7 @@ func listNodesHandler(c *gin.Context) {
 //	@Produce		json
 //	@Success		200	{object}	[]model.Gateway
 //	@Param			gateway_id	path	string	true	"id of the gateway"
-//	@Router			/structure/tag/list/{gateway_id} [get]
+//	@Router			/structure/tag/list/{gatewayid} [get]
 func listTagsHandler(c *gin.Context) {
 	gwid := c.Param("gateway")
 	mck := mock.GetMock()

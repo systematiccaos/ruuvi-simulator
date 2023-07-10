@@ -21,7 +21,7 @@ import (
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{string}	json-conf
-//	@Param			tag	path		string	true	"the tags name"	example("ruuvi_1234")
+//	@Param			tag	path		string	true	"the tags address"	example("12:34:56:78:90:12")
 //	@Router			/acc-data/get/{tag}/{page} [get]
 func getAccDataHandler(c *gin.Context) {
 	address := c.Param("tag")
