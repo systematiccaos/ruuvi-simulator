@@ -26,8 +26,11 @@ func NewTag() Tag {
 		Online:      true,
 	}
 	as := NewAccelerationSensor()
+	ts := NewTemperatureSensor()
+	hs := NewHumiditySensor()
+	vs := NewVoltageSensor()
 	tag.Config = NewTagConfig()
-	tag.Sensors = append(tag.Sensors, &as)
+	tag.Sensors = append(tag.Sensors, &as, &ts, &hs, &vs)
 	return tag
 }
 

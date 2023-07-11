@@ -16,6 +16,42 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/acc-data/get/{tag}": {
+            "get": {
+                "description": "gets the latest data of the specified tag - get your tags via \"list\" first",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "acc-data"
+                ],
+                "summary": "gets latest data of the specified tag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "example": "\"12:34:56:78:90:12\"",
+                        "description": "the tags address",
+                        "name": "tag",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.AccelerationSensor"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/acc-data/get/{tag}/{page}": {
             "get": {
                 "description": "gets data of the specified tag - get your tags via \"list\" first",
@@ -44,32 +80,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/acc-data/list": {
-            "get": {
-                "description": "gets data of the specified tag - get your tags via \"list\" first",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "acc-data"
-                ],
-                "summary": "gets acc data of the specified tag",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.AccelerationSensor"
-                            }
                         }
                     }
                 }

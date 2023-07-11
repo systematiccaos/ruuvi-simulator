@@ -53,6 +53,31 @@ definitions:
 info:
   contact: {}
 paths:
+  /acc-data/get/{tag}:
+    get:
+      consumes:
+      - application/json
+      description: gets the latest data of the specified tag - get your tags via "list"
+        first
+      parameters:
+      - description: the tags address
+        example: '"12:34:56:78:90:12"'
+        in: path
+        name: tag
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.AccelerationSensor'
+            type: array
+      summary: gets latest data of the specified tag
+      tags:
+      - acc-data
   /acc-data/get/{tag}/{page}:
     get:
       consumes:
@@ -72,23 +97,6 @@ paths:
           description: OK
           schema:
             type: string
-      summary: gets acc data of the specified tag
-      tags:
-      - acc-data
-  /acc-data/list:
-    get:
-      consumes:
-      - application/json
-      description: gets data of the specified tag - get your tags via "list" first
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.AccelerationSensor'
-            type: array
       summary: gets acc data of the specified tag
       tags:
       - acc-data
