@@ -59,7 +59,10 @@ func getAccDataHandler(c *gin.Context) {
 		return
 	}
 
-	measurements := tag.Sensors[0].GetMeasurements()
+	measurements := []model.Measurement{}
+	for _, s := range tag.Sensors {
+		measurements = append(measurements, s.GetMeasurements()...)
+	}
 	nextpage := pagei + 1
 	if len(measurements) <= (pagei-1)*sizei+sizei {
 		lp_offset := int((len(measurements) - 1) / 10)
