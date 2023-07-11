@@ -41,6 +41,7 @@ func (g *Gateway) Update() {
 	}
 	if rand.Float32() < 0.00005 {
 		g.Online = !g.Online
+		g.NetworkSegment = rand.Intn(5)
 	}
 	if !g.Online {
 		return
