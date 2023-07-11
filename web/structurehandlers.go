@@ -50,7 +50,7 @@ func listNodesHandler(c *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	[]model.Gateway
-//	@Param			gateway_id	path	string	true	"id of the gateway"
+//	@Param			gatewayid	path	string	true	"id of the gateway"
 //	@Router			/structure/tag/list/{gatewayid} [get]
 func listTagsHandler(c *gin.Context) {
 	gwid := c.Param("gateway")

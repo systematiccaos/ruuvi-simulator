@@ -194,7 +194,7 @@ paths:
       parameters:
       - description: id of the gateway
         in: path
-        name: gateway_id
+        name: gatewayid
         required: true
         type: string
       produces:

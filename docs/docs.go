@@ -228,7 +228,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "id of the gateway",
-                        "name": "gateway_id",
+                        "name": "gatewayid",
                         "in": "path",
                         "required": true
                     }
