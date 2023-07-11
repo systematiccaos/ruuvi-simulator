@@ -90,6 +90,11 @@ paths:
         name: tag
         required: true
         type: string
+      - description: the page of measurements you would like to get
+        in: path
+        name: page
+        required: true
+        type: number
       produces:
       - application/json
       responses:

@@ -73,6 +73,13 @@ const docTemplate = `{
                         "name": "tag",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "the page of measurements you would like to get",
+                        "name": "page",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
