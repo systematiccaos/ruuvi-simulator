@@ -12,17 +12,14 @@ type AccelerationSensor struct {
 	frame        int                      `json:"-"`
 	framerate    float64                  `json:"-"`
 	dp           *pendulum.DoublePendulum `json:"-"`
-	dp2          *pendulum.DoublePendulum `json:"-"`
 }
 
 func NewAccelerationSensor() AccelerationSensor {
-	dp1 := pendulum.NewDoublePendulum(50, 50, 2, 2.5, 5, 3)
-	dp2 := pendulum.NewDoublePendulum(80, 50, 2, 3.5, 5, 8)
+	dp1 := pendulum.NewDoublePendulum(80, 50, 2, 3.5, 5, 8)
 	as := AccelerationSensor{
 		frame:     0,
 		framerate: 60.0,
 		dp:        &dp1,
-		dp2:       &dp2,
 		Tp:        "AccelerationSensor",
 	}
 	return as
@@ -51,9 +48,7 @@ func (as *AccelerationSensor) Update() {
 
 func (as *AccelerationSensor) calcPendulums() {
 	as.dp.MoveObjects(1.0 / as.framerate)
-	as.dp2.MoveObjects(1.0 / as.framerate)
 	as.dp.UpdatePos()
-	as.dp2.UpdatePos()
 	if as.frame%600 == 0 {
 		start := len(as.dp.P1.Accelerations) - 600
 		if start < 0 {
