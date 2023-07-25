@@ -44,7 +44,7 @@ func (m *Mock) Run() {
 			for idx := range m.Gateways[i].Tags {
 				if m.Gateways[i].Tags[idx].WantsChange {
 					newidx := i + 1
-					if i+1 < len(m.Gateways[i].Tags) {
+					if i+1 >= len(m.Gateways) {
 						newidx = 0
 					}
 					m.Gateways[newidx].Tags = append(m.Gateways[i].Tags, m.Gateways[i].Tags[idx])
