@@ -8,9 +8,17 @@ import (
 	"time"
 )
 
+// Gateway - stores information on the gateway runtime
+// @Description tags - all the tags, known to the gateway
+// @Description config - GatewayConfig that belongs to this Gateway
+// @Description network_segment - subnet the Gateway is in
+// @Description last_contact - last time the api heard back from the Gateway
+// @Description online - bool that determines if the Gateway is currently online
+// @Description ip_address - current IPv4 of the Gateway
+// @Description id - unique identifier
 type Gateway struct {
 	Tags           []Tag         `json:"tags,omitempty"`
-	Config         GatewayConfig `json:"-"`
+	Config         GatewayConfig `json:"config,omitempty"`
 	NetworkSegment int           `json:"network_segment"`
 	LastContact    time.Time     `json:"last_contact"`
 	Online         bool          `json:"online"`

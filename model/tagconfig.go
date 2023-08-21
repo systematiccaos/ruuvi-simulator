@@ -4,6 +4,15 @@ import (
 	"math/rand"
 )
 
+// Tag - stores information on the tag
+// @Description samplerate - samplerate of the tag
+// @Description scan_interval - interval the sensors of the tag will be polled (ms)
+// @Description resolution - bit depth resolution of the sensors
+// @Description scale - scaling factor for values from the sensors (for compression)
+// @Description dsp_function - dsp function for signal evaluation (enum)
+// @Description dsp_parameter - dsp configuration parameter (enum)
+// @Description mode - current measurement mode (enum)
+// @Description divider - divider for the samplerate
 type TagConfig struct {
 	SampleRate   int     `json:"samplerate"`
 	Interval     float64 `json:"scan_interval"`

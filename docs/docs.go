@@ -268,8 +268,12 @@ const docTemplate = `{
             }
         },
         "model.Gateway": {
+            "description": "tags - all the tags, known to the gateway config - GatewayConfig that belongs to this Gateway network_segment - subnet the Gateway is in last_contact - last time the api heard back from the Gateway online - bool that determines if the Gateway is currently online ip_address - current IPv4 of the Gateway id - unique identifier",
             "type": "object",
             "properties": {
+                "config": {
+                    "$ref": "#/definitions/model.GatewayConfig"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -294,6 +298,7 @@ const docTemplate = `{
             }
         },
         "model.GatewayConfig": {
+            "description": "version - version of the gateway's firmware poll_interval - how often the tags will be polled via bluetooth max_allowed_clients - how many tags will be accepted api_timeout - how long it takes for the gateway to restart when the api-server is unavailable",
             "type": "object",
             "properties": {
                 "api_timeout": {
@@ -311,10 +316,14 @@ const docTemplate = `{
             }
         },
         "model.Tag": {
+            "description": "sensors - all the sensors, mounted on this tag (list) address - unique MAC-address of the tag (bluetooth MAC) name - name of the tag that derives from the MAC-address last_contact - last time the Gateway heard back from the Tag online - bool that determines if the Tag is currently online config - TagConfig that belongs to this Tag",
             "type": "object",
             "properties": {
                 "address": {
                     "type": "string"
+                },
+                "config": {
+                    "$ref": "#/definitions/model.TagConfig"
                 },
                 "last_contact": {
                     "type": "string"
@@ -328,6 +337,36 @@ const docTemplate = `{
                 "sensors": {
                     "type": "array",
                     "items": {}
+                }
+            }
+        },
+        "model.TagConfig": {
+            "description": "samplerate - samplerate of the tag scan_interval - interval the sensors of the tag will be polled (ms) resolution - bit depth resolution of the sensors scale - scaling factor for values from the sensors (for compression) dsp_function - dsp function for signal evaluation (enum) dsp_parameter - dsp configuration parameter (enum) mode - current measurement mode (enum) divider - divider for the samplerate",
+            "type": "object",
+            "properties": {
+                "divider": {
+                    "type": "integer"
+                },
+                "dsp_function": {
+                    "type": "integer"
+                },
+                "dsp_parameter": {
+                    "type": "integer"
+                },
+                "mode": {
+                    "type": "integer"
+                },
+                "resolution": {
+                    "type": "integer"
+                },
+                "samplerate": {
+                    "type": "integer"
+                },
+                "scale": {
+                    "type": "integer"
+                },
+                "scan_interval": {
+                    "type": "number"
                 }
             }
         }

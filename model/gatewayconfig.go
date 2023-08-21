@@ -5,6 +5,11 @@ import (
 	"math/rand"
 )
 
+// GatewayConfig - stores information on the gateway
+// @Description version - version of the gateway's firmware
+// @Description poll_interval - how often the tags will be polled via bluetooth
+// @Description max_allowed_clients - how many tags will be accepted
+// @Description api_timeout - how long it takes for the gateway to restart when the api-server is unavailable
 type GatewayConfig struct {
 	Version           string  `json:"version"`
 	PollInterval      int     `json:"poll_interval"`

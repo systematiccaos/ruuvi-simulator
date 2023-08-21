@@ -6,6 +6,13 @@ import (
 	"time"
 )
 
+// Tag - stores information on the tag
+// @Description sensors - all the sensors, mounted on this tag (list)
+// @Description address - unique MAC-address of the tag (bluetooth MAC)
+// @Description name - name of the tag that derives from the MAC-address
+// @Description last_contact - last time the Gateway heard back from the Tag
+// @Description online - bool that determines if the Tag is currently online
+// @Description config - TagConfig that belongs to this Tag
 type Tag struct {
 	Sensors     []Sensor  `json:"sensors"`
 	Address     string    `json:"address"`
@@ -13,7 +20,7 @@ type Tag struct {
 	LastContact time.Time `json:"last_contact"`
 	Online      bool      `json:"online"`
 	WantsChange bool      `json:"-"`
-	Config      TagConfig `json:"-"`
+	Config      TagConfig `json:"config"`
 }
 
 func NewTag() Tag {
