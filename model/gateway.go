@@ -18,7 +18,7 @@ import (
 // @Description id - unique identifier
 type Gateway struct {
 	Tags           []Tag         `json:"tags,omitempty"`
-	Config         GatewayConfig `json:"config,omitempty"`
+	Config         GatewayConfig `json:"-"`
 	NetworkSegment int           `json:"network_segment"`
 	LastContact    time.Time     `json:"last_contact"`
 	Online         bool          `json:"online"`
